@@ -184,13 +184,13 @@ const connectMqttClient = () => {
             parsedMessage = transform.evaluate(parsedMessage)
         }
 
-        const streamName = options['stream-name-template'].replace('$topic', truncateTopic(topic, options['topic-levels']))
-
         let stream
         if (options['stream-id']) {
             stream = options['stream-id']
         } else if (!options['dry-run']) {
             // Stream auto-creation
+            const streamName = options['stream-name-template'].replace('$topic', truncateTopic(topic, options['topic-levels']))
+
             if (!streamCreateFutures[streamName]) {
                 console.log('Getting or creating stream: ', streamName)
                 streamCreateFutures[streamName] = streamrClient.getOrCreateStream({
@@ -211,7 +211,7 @@ const connectMqttClient = () => {
         }
 
         if (options['verbose']) {
-            console.log(`${topic} -> ${stream && stream.name || stream || '(dry-run)'}\n:${JSON.stringify(parsedMessage)}`)
+            console.log(`${options['dry-run'] ? 'DRY-RUN: ' : ''}${topic} -> ${stream && stream.name || stream || '(dry-run)'}\n:${JSON.stringify(parsedMessage)}`)
         }
 
         try {
