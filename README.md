@@ -55,10 +55,14 @@ Default: `$topic`
 
 Give this option to set how the stream name is constructed from the MQTT topic. 
 The string `$topic` in the template is replaced by the actual topic. 
-Example: `My MQTT topic: $topic`. 
+Example: `My MQTT topic: $topic`.
 
 Note that you can direct all data go to a single stream by just defining its name **without** the
 placeholder `$topic` in it.
+
+`--stream-id [id]`
+
+If this option is given, all data will be published to a single pre-existing stream with this id. Topic auto-creation will be disabled.
 
 `--topic-levels [num]`
 

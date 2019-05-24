@@ -45,6 +45,9 @@ const options = require('yargs')
         default: '$topic',
         describe: 'Give this option to set how the stream name is constructed from the MQTT topic. The string \'$topic\' in the template is replaced by the actual topic. Example: "My MQTT topic: $topic". To have all data go to a single stream, just define the name of the stream here.',
     })
+    .option('stream-id', {
+        describe: 'If this option is given, all data will be published to a single pre-existing stream with this id. Topic auto-creation will be disabled.',
+    })
     .option('topic-levels', {
         type: 'number',
         default: undefined,
@@ -183,11 +186,11 @@ const connectMqttClient = () => {
 
         const streamName = options['stream-name-template'].replace('$topic', truncateTopic(topic, options['topic-levels']))
 
-        if (options['verbose']) {
-            console.log(`${options['dry-run'] ? 'DRY-RUN: ' : ''}${topic} -> ${streamName}\n:${JSON.stringify(parsedMessage)}`)
-        }
-
-        if (!options['dry-run']) {
+        let stream
+        if (options['stream-id']) {
+            stream = options['stream-id']
+        } else if (!options['dry-run']) {
+            // Stream auto-creation
             if (!streamCreateFutures[streamName]) {
                 console.log('Getting or creating stream: ', streamName)
                 streamCreateFutures[streamName] = streamrClient.getOrCreateStream({
@@ -204,14 +207,22 @@ const connectMqttClient = () => {
                 }
             }
 
-            const stream = await streamCreateFutures[streamName]
-            try {
-                streamrClient.publish(stream, parsedMessage)
-                logger.successIncrement()
-            } catch (err) {
-                logger.errorIncrement()
-            }
+            stream = await streamCreateFutures[streamName]
         }
+
+        if (options['verbose']) {
+            console.log(`${topic} -> ${stream && stream.name || stream || '(dry-run)'}\n:${JSON.stringify(parsedMessage)}`)
+        }
+
+        try {
+            if (!options['dry-run']) {
+                await streamrClient.publish(stream, parsedMessage)
+            }
+            logger.successIncrement()
+        } catch (err) {
+            logger.errorIncrement()
+        }
+
     })
 }
 
