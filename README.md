@@ -90,3 +90,11 @@ Set to 0 to disable.
 
 If this option is given, the script doesn't really create streams or produce data to Streamr.
 It just reads from the MQTT broker and logs the data to console.
+
+## License
+
+AGPLv3, see [LICENSE](LICENSE).
+
+## TODO
+
+- Utility for the other direction (Streamr to MQTT)
