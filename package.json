@@ -1,6 +1,6 @@
 {
   "name": "@streamr/mqtt-streamr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Command-line utility for bridging data from MQTT to Streamr",
   "bin": {
     "mqtt-streamr": "bin/mqtt-streamr.js"
