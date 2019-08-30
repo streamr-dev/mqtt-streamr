@@ -34,7 +34,11 @@ const options = require('yargs')
     })
     .option('streamr-url', {
         default: undefined,
-        describe: 'The Streamr websocket API URL, for example wss://www.streamr.com/api/v1/ws',
+        describe: 'The Streamr websocket API URL. By default, uses the default value in the Streamr JS SDK (wss://www.streamr.com/api/v1/ws)',
+    })
+    .option('streamr-rest-url', {
+        default: undefined,
+        describe: 'The Streamr REST API URL. By default, uses the default value in the Streamr JS SDK (https://www.streamr.com/api/v1)',
     })
     .option('public', {
         type: 'boolean',
@@ -83,6 +87,9 @@ const clientConfig = {}
 
 if (options['streamr-url']) {
     clientConfig.url = options['streamr-url']
+}
+if (options['streamr-url']) {
+    clientConfig.restUrl = options['streamr-rest-url']
 }
 
 if (options['api-key']) {

@@ -41,8 +41,12 @@ Give this option to print all the data to the console.
 
 `--streamr-url [url]`
 
-The Streamr websocket API URL, for example `wss://www.streamr.com/api/v1/ws`. If not defined,
-the default value in the Streamr client library is used.
+The Streamr websocket API URL. By default, uses the default value in the Streamr JS SDK (`wss://www.streamr.com/api/v1/ws`).
+
+`--streamr-rest-url [url]`
+
+The Streamr REST API URL. By default, uses the default value in the Streamr JS SDK (`https://www.streamr.com/api/v1`).
+
 
 `--public`
 
