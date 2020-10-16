@@ -19,13 +19,9 @@ const options = require('yargs')
         type: 'array',
         describe: 'Topic/path to subscribe to. Give this option multiple times to subscribe to several topics. Can include wildcards.',
     })
-    .option('api-key', {
-        default: undefined,
-        describe: 'API key of the user to authenticate as. Either --api-key or --private-key must be given.',
-    })
     .option('private-key', {
         default: undefined,
-        describe: 'Ethereum private key of the user to authenticate as. Either api-key or private-key must be given.',
+        describe: 'Ethereum private key of the user to authenticate as.',
     })
     .option('verbose', {
         type: 'boolean',
@@ -76,7 +72,7 @@ const options = require('yargs')
         default: false,
         describe: 'If this option is given, the script doesn\'t really create streams or produce data to Streamr. It just reads from the MQTT broker and logs the data to console.'
     })
-    .demandOption(['mqtt-url','topic'])
+    .demandOption(['mqtt-url','topic','private-key'])
     .argv;
 
 /**
@@ -92,16 +88,8 @@ if (options['streamr-url']) {
     clientConfig.restUrl = options['streamr-rest-url']
 }
 
-if (options['api-key']) {
-    clientConfig.auth = {
-        apiKey: options['api-key']
-    }
-} else if (options['private-key']) {
-    clientConfig.auth = {
-        privateKey: options['private-key']
-    }
-} else {
-    throw new Error('You must define either "api-key" or "private-key" option to authenticate to Streamr!')
+clientConfig.auth = {
+    privateKey: options['private-key']
 }
 
 /**
