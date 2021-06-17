@@ -14,7 +14,7 @@
     "console-stamp": "^0.2.7",
     "jsonata": "^1.6.4",
     "mqtt": "^2.18.8",
-    "streamr-client": "^5.4.1",
+    "streamr-client": "^5.4.3",
     "yargs": "^13.2.4"
   }
 }
