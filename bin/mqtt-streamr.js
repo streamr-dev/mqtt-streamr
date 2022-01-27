@@ -28,14 +28,6 @@ const options = require('yargs')
         default: false,
         describe: 'Give this option to print all the data to the console.',
     })
-    .option('streamr-url', {
-        default: undefined,
-        describe: 'The Streamr websocket API URL. By default, uses the default value in the Streamr JS SDK (wss://www.streamr.com/api/v1/ws)',
-    })
-    .option('streamr-rest-url', {
-        default: undefined,
-        describe: 'The Streamr REST API URL. By default, uses the default value in the Streamr JS SDK (https://www.streamr.com/api/v1)',
-    })
     .option('public', {
         type: 'boolean',
         describe: 'Give this option to make all created streams publicly readable. By default, created streams are private to you.',
@@ -79,17 +71,10 @@ const options = require('yargs')
  * Streamr connection setup
  */
 
-const clientConfig = {}
-
-if (options['streamr-url']) {
-    clientConfig.url = options['streamr-url']
-}
-if (options['streamr-url']) {
-    clientConfig.restUrl = options['streamr-rest-url']
-}
-
-clientConfig.auth = {
-    privateKey: options['private-key']
+const clientConfig = {
+    auth: {
+        privateKey: options['private-key']
+    }
 }
 
 /**
@@ -127,12 +112,6 @@ const transform = (options['transform'] ? jsonata(options['transform']) : null)
  */
 
 const streamrClient = new StreamrClient(clientConfig)
-streamrClient.on('connected', () => {
-    console.log('Streamr client connected to ', streamrClient.options.url)
-})
-streamrClient.on('error', (err) => {
-    console.error(err)
-})
 
 /**
  * MQTT connection setup

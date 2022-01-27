@@ -8,13 +8,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Streamr <contact@streamr.com>",
+  "author": "Streamr <contact@streamr.network>",
   "license": "AGPL-3.0",
   "dependencies": {
     "console-stamp": "^0.2.7",
     "jsonata": "^1.6.4",
     "mqtt": "^2.18.8",
-    "streamr-client": "^5.4.3",
+    "streamr-client": "^6.0.0-alpha.25",
     "yargs": "^13.2.4"
   }
 }
