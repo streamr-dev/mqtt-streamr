@@ -1,7 +1,7 @@
 # mqtt-streamr
 
-A command line utility for bridging data from a MQTT broker to [Streamr](https://www.streamr.com) with
-stream auto-creation and other useful features.
+A command line utility for bridging data from a MQTT broker to [Streamr Network](https://streamr.network) with
+stream auto-creation and other useful features. This utility is basically a script with a MQTT client and a Streamr light node, and some code to glue the two together.
 
 ## Installation
 
@@ -22,31 +22,18 @@ The MQTT server URL to connect to, for example `--mqtt-url wss://some-mqtt-serve
 
 `--topic [topic]`
 
-Topic/path to subscribe to. Give this option multiple times to subscribe to several topics.
+MQTT topic/path to subscribe to. Give this option multiple times to subscribe to several topics.
 Can include wildcards. Example: `--topic /home/bedroom/lamp`
 
 `--private-key [key]`
 
-Ethereum private key of the user to authenticate as. Either `--api-key` or `--private-key` must be given.
-
-`--api-key [key]`
-
-API key of the user to authenticate as. Either `--api-key` or `--private-key` must be given.
+Ethereum private key to use on the Streamr Network. If you don't have one, you can export a key from a wallet like [Metamask](https://metamask.io/) or generate a private key [here](https://vanity-eth.tk/).
 
 ## Additional options
 
 `--verbose`
 
 Give this option to print all the data to the console.
-
-`--streamr-url [url]`
-
-The Streamr websocket API URL. By default, uses the default value in the Streamr JS SDK (`wss://www.streamr.com/api/v1/ws`).
-
-`--streamr-rest-url [url]`
-
-The Streamr REST API URL. By default, uses the default value in the Streamr JS SDK (`https://www.streamr.com/api/v1`).
-
 
 `--public`
 
