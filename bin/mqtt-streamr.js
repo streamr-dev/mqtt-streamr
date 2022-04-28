@@ -33,9 +33,9 @@ const options = require('yargs')
         describe: 'Give this option to make all created streams publicly readable. By default, created streams are private to you.',
         default: false,
     })
-    .option('stream-name-template', {
-        default: '$topic',
-        describe: 'Give this option to set how the stream name is constructed from the MQTT topic. The string \'$topic\' in the template is replaced by the actual topic. Example: "My MQTT topic: $topic". To have all data go to a single stream, just define the name of the stream here.',
+    .option('stream-id-template', {
+        default: '/$topic',
+        describe: 'Give this option to set how the stream id is constructed from the MQTT topic. The string \'$topic\' in the template is replaced by the actual topic. Example: "mydomain.eth/$topic". To have all data go to a single stream, just define the id of the stream here.',
     })
     .option('stream-id', {
         describe: 'If this option is given, all data will be published to a single pre-existing stream with this id. Topic auto-creation will be disabled.',
@@ -163,29 +163,29 @@ const connectMqttClient = () => {
             stream = options['stream-id']
         } else if (!options['dry-run']) {
             // Stream auto-creation
-            const streamName = options['stream-name-template'].replace('$topic', truncateTopic(topic, options['topic-levels']))
+            const streamId = options['stream-id-template'].replace('$topic', truncateTopic(topic, options['topic-levels']))
 
-            if (!streamCreateFutures[streamName]) {
-                console.log('Getting or creating stream: ', streamName)
-                streamCreateFutures[streamName] = streamrClient.getOrCreateStream({
-                    name: streamName
+            if (!streamCreateFutures[streamId]) {
+                console.log('Getting or creating stream: ', streamId)
+                streamCreateFutures[streamId] = streamrClient.getOrCreateStream({
+                    id: streamId
                 })
                 if (options['public']) {
-                    const stream = await streamCreateFutures[streamName]
+                    const stream = await streamCreateFutures[streamId]
                     const publicRead = await stream.hasPermission('read', null)
 
                     if (!publicRead) {
-                        console.log(`Making stream ${streamName} public`)
+                        console.log(`Making stream ${streamId} public`)
                         await stream.grantPermission('read', null)
                     }
                 }
             }
 
-            stream = await streamCreateFutures[streamName]
+            stream = await streamCreateFutures[streamId]
         }
 
         if (options['verbose']) {
-            console.log(`${options['dry-run'] ? 'DRY-RUN: ' : ''}${topic} -> ${stream && stream.name || stream || '(dry-run)'}\n:${JSON.stringify(parsedMessage)}`)
+            console.log(`${options['dry-run'] ? 'DRY-RUN: ' : ''}${topic} -> ${stream && stream.id || stream || '(dry-run)'}\n:${JSON.stringify(parsedMessage)}`)
         }
 
         try {
