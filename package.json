@@ -11,10 +11,10 @@
   "author": "Streamr <contact@streamr.network>",
   "license": "AGPL-3.0",
   "dependencies": {
+    "@streamr/sdk": "^100.0.0-rc.0",
     "console-stamp": "^0.2.7",
     "jsonata": "^1.6.4",
     "mqtt": "^2.18.8",
-    "streamr-client": "^100.0.0-testnet-three.2",
     "yargs": "^13.2.4"
   }
 }
