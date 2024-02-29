@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const StreamrClient = require('streamr-client')
+const StreamrClient = require('@streamr/sdk')
 const mqtt = require('mqtt')
 const jsonata = require("jsonata")
 const DataTimeoutUtil = require('../src/DataTimeoutUtil')
